@@ -1,4 +1,4 @@
-#include "ExpressionTreeNode.h"
+#include "ExpressionTree.hpp"
 
 int main() {
 
