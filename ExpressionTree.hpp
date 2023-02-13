@@ -1,29 +1,36 @@
 #ifndef EXPRESSION_TREE
 #define EXPRESSION_TREE
 
-template <typename T>
+#import <string>
+
 class ExpressionTree
 {
 private:
     struct ExpressionTreeNode
     {
-        ExpressionTreeNode(const T& o = T(), ExpressionTreeNode* l = nullptr, ExpressionTreeNode* r = nullptr)
-                : Operand{o}, left{l}, right{r}
-        {
-            isOperator = false;
+        ExpressionTreeNode(ExpressionTreeNode* l = nullptr, ExpressionTreeNode* r = nullptr) : lft{l}, rght{r}
+        {}
+
+        virtual int evaluate() = 0;
+
+    protected:
+        ExpressionTreeNode* left() {
+            return lft;
+        }
+        ExpressionTreeNode* right() {
+            return rght;
         }
 
-        ExpressionTreeNode(const char& o, ExpressionTreeNode* l = nullptr, ExpressionTreeNode* r = nullptr)
-            : Operator{o}, left{l}, right{r}
-        {
-            isOperator = true;
-        }
+    private:
+        ExpressionTreeNode *lft;
+        ExpressionTreeNode *rght;
+    };
 
-        T Operand;
-        char Operator;
-        bool isOperator;
-        ExpressionTreeNode *left;
-        ExpressionTreeNode *right;
+    struct PlusNode: public ExpressionTreeNode {
+
+        int evaluate() {
+            return left()->evaluate() + right()->evaluate();
+        }
     };
 };
 
